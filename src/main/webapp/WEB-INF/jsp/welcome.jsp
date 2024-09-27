@@ -34,7 +34,7 @@
                     <a class="nav-link" href="products">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="purchases">Buying</a>
+                    <a class="nav-link" href="purchases">Purchases</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="sales">Sales</a>

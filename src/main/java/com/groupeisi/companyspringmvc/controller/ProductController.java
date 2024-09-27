@@ -48,7 +48,6 @@ public class ProductController {
             @RequestParam("name") String name,
             @RequestParam("stock") double stock) {
 
-        logger.info("ProductController - Méthode POST appelée pour enregistrer un produit");
         logger.debug("ProductController - Paramètres reçus : ref={}, name={}, stock={}", ref, name, stock);
 
         ProductDto productDto = new ProductDto();

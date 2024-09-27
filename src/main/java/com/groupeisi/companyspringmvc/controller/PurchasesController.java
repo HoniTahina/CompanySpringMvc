@@ -28,7 +28,6 @@ public class PurchasesController {
 
     @GetMapping("/purchases")
     public String showPurchases(Model model) {
-        logger.info("PurchasesController - showPurchases");
 
         try {
             Optional<List<PurchasesDto>> purchases = purchasesService.findAll();
@@ -47,22 +46,17 @@ public class PurchasesController {
     public String savePurchase(
             @RequestParam("productRef") String productRef,
             @RequestParam("quantity") double quantity) {
-        logger.info("PurchasesController - savePurchase");
-
-        logger.debug("Paramètres reçus : productRef={}, quantity={}", productRef, quantity);
-
         Optional<ProductDto> productOptional = productService.findByRef(productRef);
-
         if (productOptional.isPresent()) {
             ProductDto productDto = productOptional.get();
 
             PurchasesDto purchasesDto = new PurchasesDto();
             purchasesDto.setProduct(productDto);
-            purchasesDto.setQuantity(quantity);
-
+            productDto.setStock(quantity);
+          //  purchasesDto.setQuantity(productDto.getStock()+quantity);
             try {
                 purchasesService.save(purchasesDto);
-                logger.info("Achat enregistré avec succès");
+            //    productService.update(productDto);
             } catch (Exception e) {
                 logger.error("Erreur lors de l'enregistrement de l'achat", e);
             }

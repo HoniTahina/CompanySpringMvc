@@ -36,18 +36,14 @@ public class SalesController {
             Optional<List<ProductDto>> products = productService.findAll();
 
             if (sales.isPresent()) {
-                logger.info("Liste des ventes récupérée avec succès");
                 model.addAttribute("salesList", sales.get());
             } else {
-                logger.info("Aucune vente trouvée");
                 model.addAttribute("salesList", new ArrayList<SalesDto>());
             }
 
             if (products.isPresent()) {
-                logger.info("Liste des produits récupérée avec succès");
                 model.addAttribute("productList", products.get());
             } else {
-                logger.info("Aucun produit trouvé");
                 model.addAttribute("productList", new ArrayList<ProductDto>());
             }
         } catch (Exception e) {
@@ -64,14 +60,17 @@ public class SalesController {
         logger.info("SalesController - saveSale");
 
         logger.debug("Paramètres reçus : productRef={}, quantity={}", productRef, quantity);
-
+        Optional<ProductDto> productOptional = productService.findByRef(productRef);
+        ProductDto productDto = productOptional.get();
         SalesDto salesDto = new SalesDto();
         salesDto.setQuantity(quantity);
+       // productDto.setStock(productDto.getStock()-quantity);
 
         try {
             Optional<ProductDto> product = productService.findByRef(productRef);
             if (product.isPresent()) {
                 salesDto.setProduct(product.get());
+                //productService.update(productDto);
                 salesService.save(salesDto);
                 logger.info("Vente enregistrée avec succès");
             } else {

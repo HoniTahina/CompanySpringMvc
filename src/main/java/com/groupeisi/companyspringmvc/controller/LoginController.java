@@ -25,7 +25,7 @@ public class LoginController {
     }
     @GetMapping(name = "logout", value = "/logout")
     public String logout() {
-        return "index";
+        return "login";
     }
 
     @PostMapping("/login")
