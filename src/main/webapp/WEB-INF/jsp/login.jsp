@@ -39,13 +39,13 @@
                             <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
                             <div data-mdb-input-init class="form-outline form-white mb-4">
-                                <input type="email" name="username" id="typeEmailX" class="form-control form-control-lg" />
-                                <label class="form-label" for="typeEmailX">Email</label>
+                                <input type="email" name="username" id="username" class="form-control form-control-lg" />
+                                <label class="form-label" for="username">Email</label>
                             </div>
 
                             <div data-mdb-input-init class="form-outline form-white mb-4">
-                                <input type="password" name="password" id="typePasswordX" class="form-control form-control-lg" />
-                                <label class="form-label" for="typePasswordX">Password</label>
+                                <input type="password" name="password" id="password" class="form-control form-control-lg" />
+                                <label class="form-label" for="password">Password</label>
                             </div>
 
                             <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>

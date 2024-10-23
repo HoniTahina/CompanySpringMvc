@@ -21,11 +21,11 @@ public class LoginController {
 
     @GetMapping(name = "login", value = "/")
     public String index() {
-        return "login";
+        return "index";
     }
     @GetMapping(name = "logout", value = "/logout")
     public String logout() {
-        return "login";
+        return "index";
     }
 
     @PostMapping("/login")
