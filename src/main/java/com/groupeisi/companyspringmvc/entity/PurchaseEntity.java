@@ -1,52 +1,51 @@
-package com.groupeisi.companyspringmvc.entities;
+package com.groupeisi.companyspringmvc.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Entity
-@Table(name = "ventes")
-public class Sales implements Serializable {
+@Table(name = "purchases")
+public class PurchaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date_p", nullable = false)
-    private Date dateP;
+    @Column(name = "date", length = 200, nullable = false)
+    private Date date;
 
     @Column(name = "quantity", nullable = false)
     private double quantity;
 
     @ManyToOne
-    @JoinColumn(name = "product_ref", nullable = false)
     private ProductEntity product;
 
-    public Sales() {
-    }
-
-    public Sales(Long id, Date dateP, double quantity, ProductEntity product) {
-        this.id = id;
-        this.dateP = dateP;
+    public PurchaseEntity(Date date, double quantity, ProductEntity product) {
+        super();
+        this.date = date;
         this.quantity = quantity;
         this.product = product;
     }
 
-    public Long getId() {
+    public PurchaseEntity() {
+        super();
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Date getDateP() {
-        return dateP;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateP(Date dateP) {
-        this.dateP = dateP;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public double getQuantity() {
@@ -64,4 +63,5 @@ public class Sales implements Serializable {
     public void setProduct(ProductEntity product) {
         this.product = product;
     }
+
 }

@@ -16,39 +16,36 @@ import java.util.Optional;
 @Controller
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
     private final IAccountUserService accountUserService = new AccountUserService();
 
-    @GetMapping(name = "login", value = "/")
+    @GetMapping("/")
     public String index() {
-        return "index";
-    }
-    @GetMapping(name = "logout", value = "/logout")
-    public String logout() {
         return "index";
     }
 
     @PostMapping("/login")
-    public String login(
-            @RequestParam("username") String userName,
-            @RequestParam("password") String password,
-            HttpSession session) {
+    public String login(HttpSession session, @RequestParam String email, @RequestParam String password){
 
         try {
-            Optional<AccountUserDto> accountUserDto = accountUserService.login(userName, password);
+            Optional<AccountUserDto> accountUserDto = accountUserService.login(email, password);
 
             if (accountUserDto.isPresent()) {
-                session.setAttribute("username", userName);
+                session.setAttribute("username", email);
                 return "redirect:/welcome";
             } else {
 
                 return "redirect:/";
             }
         } catch (Exception e) {
-            logger.error("Erreur lors de la connexion : {}", e.getMessage());
+            logger.error("Erreur de connexion : {}", e.getMessage());
 
             return "redirect:/";
         }
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
 }

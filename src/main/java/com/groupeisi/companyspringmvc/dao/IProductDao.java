@@ -1,13 +1,9 @@
 package com.groupeisi.companyspringmvc.dao;
 
-import com.groupeisi.companyspringmvc.entities.ProductEntity;
 
-import java.util.Optional;
+import com.groupeisi.companyspringmvc.entity.ProductEntity;
+
+public interface IProductDao extends Repository<ProductEntity>{
 
 
-public interface IProductDao extends Repository<ProductEntity> {
-
-    Optional<ProductEntity> findByRef(String ref);
-
-    boolean update(ProductEntity productEntity);
 }

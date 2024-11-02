@@ -303,7 +303,7 @@
             </div>
             <!-- Login Form -->
             <form action="login" method="post">
-                <input type="email" id="username" class="fadeIn second" name="username" placeholder="login">
+                <input type="email" id="email" class="fadeIn second" name="email" placeholder="login">
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
                 <input type="submit" class="fadeIn fourth" value="Log In">
             </form>

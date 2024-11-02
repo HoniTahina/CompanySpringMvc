@@ -39,8 +39,8 @@
                             <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
                             <div data-mdb-input-init class="form-outline form-white mb-4">
-                                <input type="email" name="username" id="username" class="form-control form-control-lg" />
-                                <label class="form-label" for="username">Email</label>
+                                <input type="email" name="email" id="email" class="form-control form-control-lg" />
+                                <label class="form-label" for="email">Email</label>
                             </div>
 
                             <div data-mdb-input-init class="form-outline form-white mb-4">

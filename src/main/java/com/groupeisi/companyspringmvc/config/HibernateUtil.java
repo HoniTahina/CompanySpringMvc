@@ -1,12 +1,9 @@
 package com.groupeisi.companyspringmvc.config;
 
-
-import java.util.Properties;
-
-import com.groupeisi.companyspringmvc.entities.AccountUserEntity;
-import com.groupeisi.companyspringmvc.entities.ProductEntity;
-import com.groupeisi.companyspringmvc.entities.Purchases;
-import com.groupeisi.companyspringmvc.entities.Sales;
+import com.groupeisi.companyspringmvc.entity.AccountUserEntity;
+import com.groupeisi.companyspringmvc.entity.ProductEntity;
+import com.groupeisi.companyspringmvc.entity.PurchaseEntity;
+import com.groupeisi.companyspringmvc.entity.SaleEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
@@ -15,52 +12,53 @@ import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Properties;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory;
-    private static Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
-    private HibernateUtil() {
+   private static SessionFactory sessionFactory;
+   private static Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
+   private HibernateUtil() {
+       
+   }
+   
+   public static SessionFactory getSessionFactory() {
+       if (sessionFactory == null) {
+           try {
+               PropertiesReader reader = new PropertiesReader("database.properties");
+                               
+               Configuration configuration = new Configuration();
 
-    }
+               Properties settings = new Properties();
+               settings.put(AvailableSettings.DRIVER, "com.mysql.cj.jdbc.Driver");
 
-    public static SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            try {
-                PropertiesReader reader = new PropertiesReader("database.properties");
+               settings.put(AvailableSettings.URL, reader.getProperty("db.urlDev"));
+               settings.put(AvailableSettings.USER, reader.getProperty("db.username"));
+               settings.put(AvailableSettings.PASS, reader.getProperty("db.password"));               
+               settings.put(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+               //cette ligne est très importante
+               settings.put(AvailableSettings.HBM2DDL_AUTO, "update");
+               
+               settings.put(AvailableSettings.SHOW_SQL, "true");
+               settings.put(AvailableSettings.FORMAT_SQL, "true");
 
-                Configuration configuration = new Configuration();
+               settings.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
-                Properties settings = new Properties();
-                settings.put(AvailableSettings.DRIVER, "com.mysql.cj.jdbc.Driver");
+               configuration.setProperties(settings);
+               configuration.addAnnotatedClass(AccountUserEntity.class);
+               configuration.addAnnotatedClass(ProductEntity.class);
+               configuration.addAnnotatedClass(PurchaseEntity.class);
+               configuration.addAnnotatedClass(SaleEntity.class);
 
-                settings.put(AvailableSettings.URL, reader.getProperty("db.urlDev"));
-                settings.put(AvailableSettings.USER, reader.getProperty("db.username"));
-                settings.put(AvailableSettings.PASS, reader.getProperty("db.password"));
-                settings.put(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-                //cette ligne est très importante
-                settings.put(AvailableSettings.HBM2DDL_AUTO, "update");
+               ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                       .applySettings(configuration.getProperties()).build();
+               sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+               
+               return sessionFactory;
 
-                settings.put(AvailableSettings.SHOW_SQL, "true");
-                settings.put(AvailableSettings.FORMAT_SQL, "true");
-
-                settings.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
-                configuration.setProperties(settings);
-                configuration.addAnnotatedClass(AccountUserEntity.class);
-                configuration.addAnnotatedClass(ProductEntity.class);
-                configuration.addAnnotatedClass(Purchases.class);
-                configuration.addAnnotatedClass(Sales.class);
-
-                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties()).build();
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-                return sessionFactory;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return sessionFactory;
-    }
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
+       return sessionFactory;
+   }
 }
